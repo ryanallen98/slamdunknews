@@ -1,0 +1,3094 @@
+backend:
+  name: git-gateway
+  accept_roles:
+    - admin
+    - editor
+media_folder: theme/assets/images
+public_folder: /assets/images
+collections:
+  - name: pages
+    label: Pages
+    identifier_field: title
+    extension: md
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    folder: cms/pages
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '{{slug}}.html'
+      - &ref_0
+        label: Seo
+        name: seo
+        widget: object
+        collapsed: true
+        fields:
+          - label: Title
+            name: title
+            widget: string
+            required: false
+          - label: Description
+            name: description
+            widget: string
+            required: false
+          - label: No index
+            name: noindex
+            widget: boolean
+            default: false
+            required: false
+          - label: Open Graph Title
+            name: og:title
+            widget: string
+            required: false
+          - label: Open Graph Image
+            name: og:image
+            widget: image
+            required: false
+            media_library:
+              config:
+                multiple: false
+          - label: Twitter Title
+            name: twitter:title
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Card
+            name: twitter:card
+            widget: string
+            default: summary
+            required: false
+          - label: Twitter Site
+            name: twitter:site
+            widget: string
+            required: false
+          - label: Twitter Creator
+            name: twitter:creator
+            widget: string
+            required: false
+          - label: Additional HTML tags
+            name: additional_tags
+            widget: text
+            required: false
+  - name: categories
+    label: Categories
+    folder: cms/categories
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - hint: ''
+        name: title
+        label: Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: f_logo
+        label: Logo
+        widget: object
+        required: true
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: true
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_category-image
+        label: Category Image
+        widget: object
+        required: false
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: false
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_color
+        label: Color
+        widget: color
+        required: false
+        enableAlpha: true
+        allowInput: true
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: categories
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[categories].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+  - name: posts
+    label: Posts
+    folder: cms/posts
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - label: Content
+        name: body
+        widget: markdown
+        required: false
+      - hint: ''
+        name: title
+        label: Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - hint: Smaller version of main image that is used on blog post grid
+        name: f_thumbnail-image
+        label: Thumbnail
+        widget: object
+        required: true
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: true
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: ''
+        name: f_main-image
+        label: Full Size Image
+        widget: object
+        required: true
+        fields:
+          - hint: ''
+            name: url
+            label: Image
+            widget: image
+            required: true
+            allow_multiple: false
+          - hint: Image Alt
+            name: alt
+            label: alt
+            widget: string
+            required: false
+      - hint: A summary of the blog post that appears on blog post grid
+        name: f_summary
+        label: Summary
+        widget: text
+        required: true
+      - hint: >-
+          Estimated reading time in minutes. You can use services like
+          Read-O-Meter to calculate it — https://niram.org/read/
+        name: f_time-to-read
+        label: Time to Read
+        widget: number
+        required: true
+      - hint: ''
+        name: f_category
+        label: Category
+        widget: relation
+        required: true
+        collection: categories
+        value_field: cms/categories/{{slug}}.md
+        search_fields:
+          - slug
+          - name
+        display_fields:
+          - title
+        multiple: false
+      - hint: ''
+        name: f_tags
+        label: Tags
+        widget: relation
+        required: false
+        collection: tags
+        value_field: cms/tags/{{slug}}.md
+        search_fields:
+          - slug
+          - name
+        display_fields:
+          - title
+        multiple: true
+      - hint: >-
+          The post will appear at the top of the landing page and navigation
+          menu
+        name: f_featured
+        label: Featured?
+        widget: boolean
+        required: false
+      - hint: Default sorting is based on this date
+        name: f_custom-date
+        label: Custom Date
+        widget: datetime
+        required: true
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: posts
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[posts].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+  - name: tags
+    label: Tags
+    folder: cms/tags
+    create: true
+    identifier_field: name
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - hint: ''
+        name: title
+        label: Name
+        widget: string
+        required: true
+      - hint: ''
+        name: created-on
+        label: Created On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: updated-on
+        label: Updated On
+        widget: datetime
+        required: false
+      - hint: ''
+        name: published-on
+        label: Published On
+        widget: datetime
+        required: false
+      - label: Tags
+        widget: hidden
+        name: tags
+        default: tags
+      - label: Layout
+        widget: hidden
+        name: layout
+        default: '[tags].html'
+      - label: Publish Date
+        name: date
+        widget: datetime
+      - *ref_0
+  - label: Theme Settings
+    name: settings
+    identifier_field: title
+    extension: json
+    create: false
+    delete: false
+    slug: '{{slug}}'
+    editor:
+      preview: false
+    files:
+      - label: General
+        name: site
+        file: cms/_data/settings/site.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: General
+          - hint: Full domain url (needed for a correct sitemap file)
+            name: domain
+            label: Domain
+            widget: string
+            required: false
+          - name: favicon
+            label: Favicon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: apple_touch_icon
+            label: Apple Touch Icon
+            widget: image
+            allow_multiple: false
+            required: false
+          - name: header_additional_content
+            label: Additional Content Header
+            hint: Content here will be placed before </head> tag
+            widget: text
+            required: false
+          - name: footer_additional_content
+            label: Additional Content Footer
+            hint: Content here will be placed before </body> tag
+            widget: text
+            required: false
+          - name: images_optimization
+            label: Images Optimization
+            widget: object
+            collapsed: false
+            fields:
+              - label: Image Formats
+                name: formats
+                widget: select
+                multiple: true
+                options:
+                  - label: Avif
+                    value: avif
+                  - label: Webp
+                    value: webp
+              - label: Image Dimensions
+                name: dimensions
+                widget: select
+                multiple: true
+                options:
+                  - label: '500'
+                    value: 500
+                  - label: '800'
+                    value: 800
+                  - label: '1080'
+                    value: 1080
+                  - label: '1600'
+                    value: 1600
+                  - label: '2000'
+                    value: 2000
+                  - label: '2600'
+                    value: 2600
+      - label: Colors
+        name: colors
+        file: cms/_data/colors.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Colors
+          - hint: 'Original color: #333'
+            name: color_10aed0
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #fafafa'
+            name: color_-10f0d82c
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #ccc'
+            name: color_116900
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #171727'
+            name: color_-6dca480c
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #fff'
+            name: color_1174a3
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #ffa32d'
+            name: color_-10ad5b79
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #151515'
+            name: color_-6de67eb1
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(0, 0, 0, 0.4)'
+            name: color_-2c9799dd
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #e6e6e6'
+            name: color_-1504b98a
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #f6f6f6'
+            name: color_-134f6c6d
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #d67800'
+            name: color_-16ce7a2a
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #414141'
+            name: color_-68ff0466
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: hsla(0, 0%, 100%, 0.4)'
+            name: color_-77066820
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #e1e6ee'
+            name: color_-154b2ee0
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #d1d1d1'
+            name: color_-17008ef6
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #2aa3f0'
+            name: color_-69afcb32
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #178bd5'
+            name: color_-6dc671fc
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #3b5998'
+            name: color_-6800ca4b
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #254079'
+            name: color_-6c305afc
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #fa345a'
+            name: color_-1108b5f5
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #cf0a30'
+            name: color_-15e17eec
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #fc0d1c'
+            name: color_-10ed305a
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #d80815'
+            name: color_-16b5799d
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #d42d2f'
+            name: color_-16ec4967
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #b41c1e'
+            name: color_-1a5672e5
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #5d66fe'
+            name: color_-647a7b4f
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0)'
+            name: color_-554fae7a
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0.6)'
+            name: color_-401dde82
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: hsla(0, 0%, 100%, 0)'
+            name: color_5274f026
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0.16)'
+            name: color_3c61fd39
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #ffedc6'
+            name: color_-10aacc4b
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #20242e'
+            name: color_-6c77aaaa
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0.2)'
+            name: color_-401ddefe
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0.8)'
+            name: color_-401dde44
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(6, 194, 94, 0.08)'
+            name: color_-3d31cdd6
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(250, 52, 90, 0.3)'
+            name: color_-3bb9be03
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(250, 52, 90, 0.08)'
+            name: color_-3b7e0ba6
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: hsla(0, 0%, 100%, 0.03)'
+            name: color_-69c6a985
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(0, 0, 0, 0.07)'
+            name: color_-665baeec
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(0, 0, 0, 0.12)'
+            name: color_-665babc6
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: hsla(0, 0%, 100%, 0.5)'
+            name: color_-77066801
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #ff6852'
+            name: color_-10c0d47e
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0.11)'
+            name: color_3c61fc9e
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #e4ceb2'
+            name: color_-1521213c
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(0, 0, 0, 0.75)'
+            name: color_-665b94e3
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #888'
+            name: color_10c235
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0.7)'
+            name: color_-401dde63
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0.1)'
+            name: color_-401ddf1d
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0.4)'
+            name: color_-401ddec0
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0.24)'
+            name: color_3c6200bc
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(21, 21, 21, 0.08)'
+            name: color_3c61f9b6
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(6, 194, 94, 0)'
+            name: color_-789ff26e
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(0, 0, 0, 0.06)'
+            name: color_-665baf0b
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #222'
+            name: color_10aaef
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #93d865'
+            name: color_-6044adf0
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: hsla(0, 0%, 96.5%, 0)'
+            name: color_-4148bdd7
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(23, 23, 39, 0.25)'
+            name: color_-1dc922b0
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #777'
+            name: color_10be54
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #ce0000'
+            name: color_-15f04ebb
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #3139c7'
+            name: color_-6ab42da5
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #06c25e'
+            name: color_-6f768fd8
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #00aa50'
+            name: color_-6fcb5562
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #e2e4eb'
+            name: color_-153d1ee4
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: rgba(22, 26, 37, 0.1)'
+            name: color_-588466b2
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+          - hint: 'Original color: #161a25'
+            name: color_-6dd7c1e5
+            label: Color
+            widget: color
+            required: true
+            enableAlpha: true
+            allowInput: true
+      - label: Texts
+        name: texts
+        file: cms/_data/texts.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Texts
+          - hint: 'Original text: Home, key: 2268ff'
+            label: Text
+            name: 2268ff
+            widget: string
+          - hint: 'Original text: No items found., key: 3d503d2b'
+            label: Text
+            name: 3d503d2b
+            widget: string
+          - hint: 'Original text: Categories, key: -3be6ddc4'
+            label: Text
+            name: '-3be6ddc4'
+            widget: string
+          - hint: >-
+              Original text: This is some text inside of a div block., key:
+              7635fb4f
+            label: Text
+            name: 7635fb4f
+            widget: string
+          - hint: "Original text: \_min read, key: 55c12744"
+            label: Text
+            name: 55c12744
+            widget: string
+          - hint: 'Original text: About, key: 3c2336d'
+            label: Text
+            name: 3c2336d
+            widget: string
+          - hint: 'Original text: Contact Us, key: 7f2746de'
+            label: Text
+            name: 7f2746de
+            widget: string
+          - hint: 'Original text: Subscribe, key: -69de02d6'
+            label: Text
+            name: '-69de02d6'
+            widget: string
+          - hint: 'Original text: Newsletter, key: -47761f27'
+            label: Text
+            name: '-47761f27'
+            widget: string
+          - hint: 'Original text: New posts straight to your inbox, key: -6f354dfb'
+            label: Text
+            name: '-6f354dfb'
+            widget: string
+          - hint: 'Original text: No spam ever. Read our , key: 22c51f36'
+            label: Text
+            name: 22c51f36
+            widget: string
+          - hint: 'Original text: Privacy Policy, key: -3fbde6f6'
+            label: Text
+            name: '-3fbde6f6'
+            widget: string
+          - hint: >-
+              Original text: Thank you! Your submission has been received!, key:
+              5a0ea5a1
+            label: Text
+            name: 5a0ea5a1
+            widget: string
+          - hint: >-
+              Original text: Oops! Something went wrong while submitting the
+              form., key: -7c112e99
+            label: Text
+            name: '-7c112e99'
+            widget: string
+          - hint: 'Original text: Tags, key: 27a839'
+            label: Text
+            name: 27a839
+            widget: string
+          - hint: 'Original text: Featured, key: -d78b7b2'
+            label: Text
+            name: '-d78b7b2'
+            widget: string
+          - hint: >-
+              Original text: Click here to indicate that you have read and agree
+              to the terms presented in the , key: -31a76c3a
+            label: Text
+            name: '-31a76c3a'
+            widget: string
+          - hint: 'Original text: , , key: 574'
+            label: Text
+            name: '574'
+            widget: string
+          - hint: 'Original text: Cookies Policy, key: -5fa6abdd'
+            label: Text
+            name: '-5fa6abdd'
+            widget: string
+          - hint: 'Original text: Terms and Conditions, key: -7ac7b766'
+            label: Text
+            name: '-7ac7b766'
+            widget: string
+          - hint: 'Original text:  and , key: 1f0b149'
+            label: Text
+            name: 1f0b149
+            widget: string
+          - hint: 'Original text: Disclaimer, key: -6f68ae45'
+            label: Text
+            name: '-6f68ae45'
+            widget: string
+          - hint: 'Original text:  agreement., key: -5868b87c'
+            label: Text
+            name: '-5868b87c'
+            widget: string
+          - hint: 'Original text: I Agree, key: 50067bf5'
+            label: Text
+            name: 50067bf5
+            widget: string
+          - hint: 'Original text: BANNER AD, key: 41032d97'
+            label: Text
+            name: 41032d97
+            widget: string
+          - hint: 'Original text: 1440 x 128, key: 2222cf0e'
+            label: Text
+            name: 2222cf0e
+            widget: string
+          - hint: 'Original text: Recent Posts, key: 2d2c9ce'
+            label: Text
+            name: 2d2c9ce
+            widget: string
+          - hint: 'Original text: View All, key: 4b0951a6'
+            label: Text
+            name: 4b0951a6
+            widget: string
+          - hint: 'Original text: Previous, key: -4811e0e9'
+            label: Text
+            name: '-4811e0e9'
+            widget: string
+          - hint: 'Original text: Next, key: 24ff13'
+            label: Text
+            name: 24ff13
+            widget: string
+          - hint: 'Original text: Twitter, key: 2c9a4253'
+            label: Text
+            name: 2c9a4253
+            widget: string
+          - hint: 'Original text: LinkedIn, key: 4b0ff13e'
+            label: Text
+            name: 4b0ff13e
+            widget: string
+          - hint: 'Original text: Instagram, key: 792b2792'
+            label: Text
+            name: 792b2792
+            widget: string
+          - hint: 'Original text: We''re on Instagram, key: 410cb745'
+            label: Text
+            name: 410cb745
+            widget: string
+          - hint: 'Original text: View Profile, key: 4130d72e'
+            label: Text
+            name: 4130d72e
+            widget: string
+          - hint: 'Original text: There is more, key: -22209951'
+            label: Text
+            name: '-22209951'
+            widget: string
+          - hint: >-
+              Original text: Slam Dunk News your source for the most updated
+              official NBA and NCAA Basketball news. Stay current with
+              highlights, match recaps, your favourite team and player news.
+              Check out the action on scores, standings and schedules. Follow
+              the game with SDN today!, key: 639e9648
+            label: Text
+            name: '639e9648'
+            widget: text
+          - hint: 'Original text: Navigation, key: -1a2819cc'
+            label: Text
+            name: '-1a2819cc'
+            widget: string
+          - hint: 'Original text: Featured Posts, key: -34b20a9f'
+            label: Text
+            name: '-34b20a9f'
+            widget: string
+          - hint: 'Original text: Want More Sport? See, key: 22041599'
+            label: Text
+            name: '22041599'
+            widget: string
+          - hint: 'Original text: 📬 , key: 3467db1'
+            label: Text
+            name: 3467db1
+            widget: string
+          - hint: 'Original text: Sign Up for Our Amazing Newsletter!, key: -517c2388'
+            label: Text
+            name: '-517c2388'
+            widget: string
+          - hint: >-
+              Original text: Writing result-oriented ad copy is difficult, as it
+              must appeal to, entice, and convince consumers to take action.,
+              key: 78d792a3
+            label: Text
+            name: 78d792a3
+            widget: text
+          - hint: "Original text: Posts Tagged\_, key: 10cd1927"
+            label: Text
+            name: 10cd1927
+            widget: string
+          - hint: 'Original text: /, key: 2f'
+            label: Text
+            name: 2f
+            widget: string
+          - hint: 'Original text: Ops... Looks like you''re lost, key: 48643810'
+            label: Text
+            name: '48643810'
+            widget: string
+          - hint: >-
+              Original text: The page you are looking for doesn't exist or has
+              been moved., key: 583f3656
+            label: Text
+            name: 583f3656
+            widget: string
+          - hint: 'Original text: Back to Homepage, key: 66ef27a'
+            label: Text
+            name: 66ef27a
+            widget: string
+          - hint: "Original text: Posted\_, key: 4be74321"
+            label: Text
+            name: 4be74321
+            widget: string
+          - hint: "Original text: \_in\_, key: 4a537b"
+            label: Text
+            name: 4a537b
+            widget: string
+          - hint: "Original text: \_category, key: -5237e262"
+            label: Text
+            name: '-5237e262'
+            widget: string
+          - hint: 'Original text: Share This Post:, key: 1261d699'
+            label: Text
+            name: 1261d699
+            widget: string
+          - hint: 'Original text: Post Tags:, key: 7e81efc1'
+            label: Text
+            name: 7e81efc1
+            widget: string
+          - hint: "Original text: More from\_, key: 214c75cb"
+            label: Text
+            name: 214c75cb
+            widget: string
+          - hint: 'Original text: There is More Posts, key: 51a5e322'
+            label: Text
+            name: 51a5e322
+            widget: string
+          - hint: 'Original text: About Us, key: 645efc51'
+            label: Text
+            name: 645efc51
+            widget: string
+          - hint: 'Original text: Introducing SLAMDUNK News, key: 4000fffc'
+            label: Text
+            name: 4000fffc
+            widget: string
+          - hint: 'Original text: 100% Responsive Template, key: f73379a'
+            label: Text
+            name: f73379a
+            widget: string
+          - hint: >-
+              Original text: A successful marketing plan relies heavily on the
+              pulling-power of advertising copy. Writing result-oriented ad copy
+              is difficult, as it must appeal to, entice, and convince consumers
+              to take action. There is no , key: -61db9dd7
+            label: Text
+            name: '-61db9dd7'
+            widget: text
+          - hint: 'Original text: magic formula, key: -4387660d'
+            label: Text
+            name: '-4387660d'
+            widget: string
+          - hint: >-
+              Original text:  to write perfect ad copy; it is based on a number
+              of factors, including ad placement, demographic, even the
+              consumer’s mood when they see your ad. So how is any writer
+              supposed to pen a , key: -3cade6de
+            label: Text
+            name: '-3cade6de'
+            widget: text
+          - hint: 'Original text: stunning piece, key: -7903744'
+            label: Text
+            name: '-7903744'
+            widget: string
+          - hint: >-
+              Original text:  of advertising copy — copy that sizzles and sells?
+              The following tips will jumpstart your creative thinking and help
+              you write a better ad., key: 7c893e53
+            label: Text
+            name: 7c893e53
+            widget: text
+          - hint: >-
+              Original text: Grabbing the consumer’s attention isn’t enough; you
+              have to keep that attention for at least a few seconds. This is
+              where your benefits come into play or a product description that
+              sets your offer apart from the others., key: -73c07db0
+            label: Text
+            name: '-73c07db0'
+            widget: text
+          - hint: >-
+              Original text: Writing result-oriented ad copy is difficult, as it
+              must appeal to, entice, and convince consumers to take action.
+              There is no magic formula to write perfect ad copy., key:
+              -4786733a
+            label: Text
+            name: '-4786733a'
+            widget: text
+          - hint: >-
+              Original text: Businesses often become known today through
+              effective marketing. The marketing may be in the form of a regular
+              news item or half column society news in the Sunday newspaper. ,
+              key: 7e9579ce
+            label: Text
+            name: 7e9579ce
+            widget: text
+          - hint: 'Original text: Carefully Crafted by Elastic Themes, key: 4438d936'
+            label: Text
+            name: 4438d936
+            widget: string
+          - hint: >-
+              Original text: The marketing may be in the form of a heart to
+              heart talk with Mr. Brown on his prominent local television show.
+              These are all advertising. Businesses cannot get away from the
+              force of advertising. If they want to make their products known in
+              the marketplace they have to use some form of advertisement., key:
+              -5af5f192
+            label: Text
+            name: '-5af5f192'
+            widget: text
+          - hint: 'Original text: Protected page, key: -11c6301f'
+            label: Text
+            name: '-11c6301f'
+            widget: string
+          - hint: >-
+              Original text: Incorrect password. Please try again., key:
+              -f5c4b5f
+            label: Text
+            name: '-f5c4b5f'
+            widget: string
+          - hint: 'Original text: Privacy Policy for Slamdunk News, key: 3cf8ae53'
+            label: Text
+            name: 3cf8ae53
+            widget: string
+          - hint: >-
+              Original text: At Slamdunk News, accessible from
+              www.slamdunknews.com, one of our main priorities is the privacy of
+              our visitors. This Privacy Policy document contains types of
+              information that is collected and recorded by Slamdunk News and
+              how we use it., key: -3db61ded
+            label: Text
+            name: '-3db61ded'
+            widget: text
+          - hint: >-
+              Original text: If you have additional questions or require more
+              information about our Privacy Policy, do not hesitate to contact
+              us., key: -117ca984
+            label: Text
+            name: '-117ca984'
+            widget: text
+          - hint: >-
+              Original text: This Privacy Policy applies only to our online
+              activities and is valid for visitors to our website with regards
+              to the information that they shared and/or collect in Touchdown
+              News. This policy is not applicable to any information collected
+              offline or via channels other than this website., key: 149c52d8
+            label: Text
+            name: 149c52d8
+            widget: text
+          - hint: 'Original text: Consent, key: -6410a806'
+            label: Text
+            name: '-6410a806'
+            widget: string
+          - hint: >-
+              Original text: By using our website, you hereby consent to our
+              Privacy Policy and agree to its terms. For our Terms and
+              Conditions, please visit the , key: 496478c3
+            label: Text
+            name: 496478c3
+            widget: text
+          - hint: 'Original text: Terms & Conditions., key: -5d6b879d'
+            label: Text
+            name: '-5d6b879d'
+            widget: string
+          - hint: 'Original text: Information we collect, key: -7639c694'
+            label: Text
+            name: '-7639c694'
+            widget: string
+          - hint: >-
+              Original text: The personal information that you are asked to
+              provide, and the reasons why you are asked to provide it, will be
+              made clear to you at the point we ask you to provide your personal
+              information., key: -66c49400
+            label: Text
+            name: '-66c49400'
+            widget: text
+          - hint: >-
+              Original text: If you contact us directly, we may receive
+              additional information about you such as your name, email address,
+              phone number, the contents of the message and/or attachments you
+              may send us, and any other information you may choose to provide.,
+              key: -38fb2d0c
+            label: Text
+            name: '-38fb2d0c'
+            widget: text
+          - hint: >-
+              Original text: When you register for an Account, we may ask for
+              your contact information, including items such as name, company
+              name, address, email address, and telephone number., key: 429990f0
+            label: Text
+            name: 429990f0
+            widget: text
+          - hint: 'Original text: How we use your information, key: 553dec5a'
+            label: Text
+            name: 553dec5a
+            widget: string
+          - hint: >-
+              Original text: We use the information we collect in various ways,
+              including to:, key: -7b658d4a
+            label: Text
+            name: '-7b658d4a'
+            widget: string
+          - hint: >-
+              Original text: Provide, operate, and maintain our website, key:
+              3b502c3e
+            label: Text
+            name: 3b502c3e
+            widget: string
+          - hint: >-
+              Original text: Improve, personalize, and expand our website, key:
+              33bb7366
+            label: Text
+            name: 33bb7366
+            widget: string
+          - hint: >-
+              Original text: Understand and analyze how you use our website,
+              key: 1e2ab0be
+            label: Text
+            name: 1e2ab0be
+            widget: string
+          - hint: >-
+              Original text: Develop new products, services, features, and
+              functionality, key: 78c369a4
+            label: Text
+            name: 78c369a4
+            widget: string
+          - hint: >-
+              Original text: Communicate with you, either directly or through
+              one of our partners, including for customer service, to provide
+              you with updates and other information relating to the website,
+              and for marketing and promotional purposes, key: -5bdaf3c1
+            label: Text
+            name: '-5bdaf3c1'
+            widget: text
+          - hint: 'Original text: Send you emails, key: -1d799910'
+            label: Text
+            name: '-1d799910'
+            widget: string
+          - hint: 'Original text: Find and prevent fraud, key: -54dfbaf4'
+            label: Text
+            name: '-54dfbaf4'
+            widget: string
+          - hint: 'Original text: Log Files, key: -6dc3e1a5'
+            label: Text
+            name: '-6dc3e1a5'
+            widget: string
+          - hint: >-
+              Original text: Touchdown News follows a standard procedure of
+              using log files. These files log visitors when they visit
+              websites. All hosting companies do this and a part of hosting
+              services' analytics. The information collected by log files
+              include internet protocol (IP) addresses, browser type, Internet
+              Service Provider (ISP), date and time stamp, referring/exit pages,
+              and possibly the number of clicks. These are not linked to any
+              information that is personally identifiable. The purpose of the
+              information is for analyzing trends, administering the site,
+              tracking users' movement on the website, and gathering demographic
+              information., key: -1f29b180
+            label: Text
+            name: '-1f29b180'
+            widget: text
+          - hint: 'Original text: Cookies and Web Beacons, key: -59ff3cd7'
+            label: Text
+            name: '-59ff3cd7'
+            widget: string
+          - hint: >-
+              Original text: Like any other website, Touchdown News uses
+              'cookies'. These cookies are used to store information including
+              visitors' preferences, and the pages on the website that the
+              visitor accessed or visited. The information is used to optimize
+              the users' experience by customizing our web page content based on
+              visitors' browser type and/or other information., key: -6006078e
+            label: Text
+            name: '-6006078e'
+            widget: text
+          - hint: >-
+              Original text: For more general information on cookies, please
+              read , key: -15837e4a
+            label: Text
+            name: '-15837e4a'
+            widget: string
+          - hint: 'Original text: "What Are Cookies", key: 6c1b97d9'
+            label: Text
+            name: 6c1b97d9
+            widget: string
+          - hint: 'Original text: ., key: 2e'
+            label: Text
+            name: 2e
+            widget: string
+          - hint: 'Original text: Google DoubleClick DART Cookie, key: 2885c2f5'
+            label: Text
+            name: 2885c2f5
+            widget: string
+          - hint: >-
+              Original text: Google is one of a third-party vendor on our site.
+              It also uses cookies, known as DART cookies, to serve ads to our
+              site visitors based upon their visit to www.website.com and other
+              sites on the internet. However, visitors may choose to decline the
+              use of DART cookies by visiting the Google ad and content network
+              Privacy Policy at the following URL – , key: -170f4b7f
+            label: Text
+            name: '-170f4b7f'
+            widget: text
+          - hint: >-
+              Original text: https://policies.google.com/technologies/ads, key:
+              f76eedf
+            label: Text
+            name: f76eedf
+            widget: string
+          - hint: 'Original text: Our Advertising Partners, key: -111bed25'
+            label: Text
+            name: '-111bed25'
+            widget: string
+          - hint: >-
+              Original text: Some of advertisers on our site may use cookies and
+              web beacons. Our advertising partners are listed below. Each of
+              our advertising partners has their own Privacy Policy for their
+              policies on user data. For easier access, we hyperlinked to their
+              Privacy Policies below., key: -7b09720
+            label: Text
+            name: '-7b09720'
+            widget: text
+          - hint: 'Original text: Google, key: 7f784a59'
+            label: Text
+            name: 7f784a59
+            widget: string
+          - hint: >-
+              Original text: Advertising Partners Privacy Policies, key:
+              -7533dc3f
+            label: Text
+            name: '-7533dc3f'
+            widget: string
+          - hint: >-
+              Original text: You may consult this list to find the Privacy
+              Policy for each of the advertising partners of Slamdunk News.,
+              key: -7991f19d
+            label: Text
+            name: '-7991f19d'
+            widget: text
+          - hint: >-
+              Original text: Third-party ad servers or ad networks uses
+              technologies like cookies, JavaScript, or Web Beacons that are
+              used in their respective advertisements and links that appear on
+              Slamdunk News, which are sent directly to users' browser. They
+              automatically receive your IP address when this occurs. These
+              technologies are used to measure the effectiveness of their
+              advertising campaigns and/or to personalize the advertising
+              content that you see on websites that you visit., key: -73f2e5c6
+            label: Text
+            name: '-73f2e5c6'
+            widget: text
+          - hint: >-
+              Original text: Note that Slamdunk News has no access to or control
+              over these cookies that are used by third-party advertisers., key:
+              -57e6d600
+            label: Text
+            name: '-57e6d600'
+            widget: text
+          - hint: 'Original text: Third Party Privacy Policies, key: -7eb1e3c5'
+            label: Text
+            name: '-7eb1e3c5'
+            widget: string
+          - hint: >-
+              Original text: Slamdunk News's Privacy Policy does not apply to
+              other advertisers or websites. Thus, we are advising you to
+              consult the respective Privacy Policies of these third-party ad
+              servers for more detailed information. It may include their
+              practices and instructions about how to opt-out of certain
+              options., key: fa22e50
+            label: Text
+            name: fa22e50
+            widget: text
+          - hint: >-
+              Original text: You can choose to disable cookies through your
+              individual browser options. To know more detailed information
+              about cookie management with specific web browsers, it can be
+              found at the browsers' respective websites., key: 47f79609
+            label: Text
+            name: 47f79609
+            widget: text
+          - hint: >-
+              Original text: CCPA Privacy Rights (Do Not Sell My Personal
+              Information), key: -4d162e05
+            label: Text
+            name: '-4d162e05'
+            widget: string
+          - hint: >-
+              Original text: Under the CCPA, among other rights, California
+              consumers have the right to:, key: -40e7a3dc
+            label: Text
+            name: '-40e7a3dc'
+            widget: string
+          - hint: >-
+              Original text: Request that a business that collects a consumer's
+              personal data disclose the categories and specific pieces of
+              personal data that a business has collected about consumers., key:
+              -563a134b
+            label: Text
+            name: '-563a134b'
+            widget: text
+          - hint: >-
+              Original text: Request that a business delete any personal data
+              about the consumer that a business has collected., key: 7690b9d5
+            label: Text
+            name: 7690b9d5
+            widget: text
+          - hint: >-
+              Original text: Request that a business that sells a consumer's
+              personal data, not sell the consumer's personal data., key:
+              2a029550
+            label: Text
+            name: 2a029550
+            widget: text
+          - hint: >-
+              Original text: If you make a request, we have one month to respond
+              to you. If you would like to exercise any of these rights, please
+              contact us., key: -35f2f74c
+            label: Text
+            name: '-35f2f74c'
+            widget: text
+          - hint: 'Original text: GDPR Data Protection Rights, key: 768783c9'
+            label: Text
+            name: 768783c9
+            widget: string
+          - hint: >-
+              Original text: We would like to make sure you are fully aware of
+              all of your data protection rights. Every user is entitled to the
+              following:, key: -2858e7d9
+            label: Text
+            name: '-2858e7d9'
+            widget: text
+          - hint: >-
+              Original text: The right to access – You have the right to request
+              copies of your personal data. We may charge you a small fee for
+              this service., key: -1af41bc
+            label: Text
+            name: '-1af41bc'
+            widget: text
+          - hint: >-
+              Original text: The right to rectification – You have the right to
+              request that we correct any information you believe is inaccurate.
+              You also have the right to request that we complete the
+              information you believe is incomplete., key: -3460a3f
+            label: Text
+            name: '-3460a3f'
+            widget: text
+          - hint: >-
+              Original text: The right to erasure – You have the right to
+              request that we erase your personal data, under certain
+              conditions., key: b835d4a
+            label: Text
+            name: b835d4a
+            widget: text
+          - hint: >-
+              Original text: The right to restrict processing – You have the
+              right to request that we restrict the processing of your personal
+              data, under certain conditions., key: -6c0e6423
+            label: Text
+            name: '-6c0e6423'
+            widget: text
+          - hint: >-
+              Original text: The right to object to processing – You have the
+              right to object to our processing of your personal data, under
+              certain conditions., key: -43def154
+            label: Text
+            name: '-43def154'
+            widget: text
+          - hint: >-
+              Original text: The right to data portability – You have the right
+              to request that we transfer the data that we have collected to
+              another organization, or directly to you, under certain
+              conditions., key: 137acb63
+            label: Text
+            name: 137acb63
+            widget: text
+          - hint: 'Original text: Children''s Information, key: -3b8a7409'
+            label: Text
+            name: '-3b8a7409'
+            widget: string
+          - hint: >-
+              Original text: Another part of our priority is adding protection
+              for children while using the internet. We encourage parents and
+              guardians to observe, participate in, and/or monitor and guide
+              their online activity., key: 503b928f
+            label: Text
+            name: 503b928f
+            widget: text
+          - hint: >-
+              Original text: Slamdunk News does not knowingly collect any
+              Personal Identifiable Information from children under the age of
+              13. If you think that your child provided this kind of information
+              on our website, we strongly encourage you to contact us
+              immediately and we will do our best efforts to promptly remove
+              such information from our records., key: 21d4dd5
+            label: Text
+            name: 21d4dd5
+            widget: text
+          - hint: 'Original text: Have a Question?, key: -55a7ea9e'
+            label: Text
+            name: '-55a7ea9e'
+            widget: string
+          - hint: 'Original text: Facebook, key: 217bfee6'
+            label: Text
+            name: 217bfee6
+            widget: string
+          - hint: 'Original text: No matching results., key: -75764c4'
+            label: Text
+            name: '-75764c4'
+            widget: string
+          - hint: 'Original text: Let''s Get in Touch, key: 7e83927'
+            label: Text
+            name: '7e83927'
+            widget: string
+          - hint: 'Original text: Contact, key: -64104400'
+            label: Text
+            name: '-64104400'
+            widget: string
+          - hint: 'Original text: Drop us a line or two, key: -242e7a15'
+            label: Text
+            name: '-242e7a15'
+            widget: string
+          - hint: 'Original text: Name, key: 24eeab'
+            label: Text
+            name: 24eeab
+            widget: string
+          - hint: 'Original text: Email, key: 3ff5b7c'
+            label: Text
+            name: 3ff5b7c
+            widget: string
+          - hint: 'Original text: Subject, key: -c1d12f4'
+            label: Text
+            name: '-c1d12f4'
+            widget: string
+          - hint: 'Original text: Message, key: -63dc6819'
+            label: Text
+            name: '-63dc6819'
+            widget: string
+          - hint: 'Original text: EMail Address, key: -21a4bcb0'
+            label: Text
+            name: '-21a4bcb0'
+            widget: string
+          - hint: 'Original text: contact@slamdunknews.com, key: 5db968d9'
+            label: Text
+            name: 5db968d9
+            widget: string
+          - hint: 'Original text: Become a Partner, key: 4ad61cf0'
+            label: Text
+            name: 4ad61cf0
+            widget: string
+          - hint: 'Original text: Advertising Packages, key: -530b4157'
+            label: Text
+            name: '-530b4157'
+            widget: string
+          - hint: >-
+              Original text: There is no magic formula to write perfect ad copy.
+              It is based on a number of factors, including ad placement,
+              demographic, even the consumer’s mood., key: -5020b4b5
+            label: Text
+            name: '-5020b4b5'
+            widget: text
+          - hint: 'Original text: Light Package, key: 7ae256fc'
+            label: Text
+            name: 7ae256fc
+            widget: string
+          - hint: 'Original text: $490, key: 1127a7'
+            label: Text
+            name: 1127a7
+            widget: string
+          - hint: 'Original text: / month, key: -cebe8b1'
+            label: Text
+            name: '-cebe8b1'
+            widget: string
+          - hint: 'Original text: 1 sidebar banner, key: -4fcaa3c1'
+            label: Text
+            name: '-4fcaa3c1'
+            widget: string
+          - hint: 'Original text:  (320x440px), key: 7bc44d20'
+            label: Text
+            name: 7bc44d20
+            widget: string
+          - hint: 'Original text: Standard Package, key: 39ccbde3'
+            label: Text
+            name: 39ccbde3
+            widget: string
+          - hint: 'Original text: $1190, key: 212535b'
+            label: Text
+            name: 212535b
+            widget: string
+          - hint: 'Original text:  (320x440px) and , key: -239067d7'
+            label: Text
+            name: '-239067d7'
+            widget: string
+          - hint: "Original text: 1\_fullsize banner, key: 548c5bcd"
+            label: Text
+            name: 548c5bcd
+            widget: string
+          - hint: 'Original text:  (1170x128px), key: -42b73c1f'
+            label: Text
+            name: '-42b73c1f'
+            widget: string
+          - hint: 'Original text: Custom Package, key: 479abe97'
+            label: Text
+            name: 479abe97
+            widget: string
+          - hint: 'Original text: from, key: 3017aa'
+            label: Text
+            name: 3017aa
+            widget: string
+          - hint: 'Original text: $2000, key: 212c2e2'
+            label: Text
+            name: 212c2e2
+            widget: string
+          - hint: 'Original text: 3+ banners, key: 7a3030ff'
+            label: Text
+            name: 7a3030ff
+            widget: string
+          - hint: 'Original text:  on every page, key: -5b37facb'
+            label: Text
+            name: '-5b37facb'
+            widget: string
+          - hint: 'Original text: Feel free to , key: 3ae5726b'
+            label: Text
+            name: 3ae5726b
+            widget: string
+          - hint: 'Original text: contact us, key: 8556e9e'
+            label: Text
+            name: 8556e9e
+            widget: string
+          - hint: >-
+              Original text:  if you have any questions or ideas. We will be
+              glad to help and let you know more about all our marketing and
+              advertising options., key: 28d38717
+            label: Text
+            name: 28d38717
+            widget: text
+          - hint: 'Original text: Frequently Asked Questions, key: -475b7d60'
+            label: Text
+            name: '-475b7d60'
+            widget: string
+          - hint: 'Original text: How many people will see my ad?, key: 6d9f3ce3'
+            label: Text
+            name: 6d9f3ce3
+            widget: string
+          - hint: >-
+              Original text: A successful marketing plan relies heavily on the ,
+              key: c745c28
+            label: Text
+            name: c745c28
+            widget: string
+          - hint: 'Original text: pulling-power, key: -34682d4b'
+            label: Text
+            name: '-34682d4b'
+            widget: string
+          - hint: >-
+              Original text:  of advertising copy. Writing result-oriented ad
+              copy is difficult, as it must appeal to, entice, and convince
+              consumers to take action. There is no magic formula., key:
+              6eb185b1
+            label: Text
+            name: 6eb185b1
+            widget: text
+          - hint: 'Original text: How big is your auditory?, key: 1ec5855d'
+            label: Text
+            name: 1ec5855d
+            widget: string
+          - hint: >-
+              Original text: Could you design my banners for my advertising
+              campaign?, key: -20e9bc7f
+            label: Text
+            name: '-20e9bc7f'
+            widget: string
+          - hint: 'Original text: Do you have money back guaranty?, key: 3487a277'
+            label: Text
+            name: 3487a277
+            widget: string
+          - hint: 'Original text: Do you have any discounts?, key: 4c1621a3'
+            label: Text
+            name: 4c1621a3
+            widget: string
+          - hint: 'Original text: Advertise With Us!, key: 4025cae2'
+            label: Text
+            name: 4025cae2
+            widget: string
+          - hint: 'Original text: Advertising, key: -176680fc'
+            label: Text
+            name: '-176680fc'
+            widget: string
+          - hint: 'Original text: Cookie Policy, key: 63af666e'
+            label: Text
+            name: 63af666e
+            widget: string
+          - hint: 'Original text: Cookie Policy for Slamdunk News, key: 551aeab7'
+            label: Text
+            name: 551aeab7
+            widget: string
+          - hint: >-
+              Original text: This is the Cookie Policy for Slamdunk News,
+              accessible from www.slamdunknews.com, key: -44541dc
+            label: Text
+            name: '-44541dc'
+            widget: string
+          - hint: 'Original text: What Are Cookies, key: 76379947'
+            label: Text
+            name: '76379947'
+            widget: string
+          - hint: >-
+              Original text: As is common practice with almost all professional
+              websites this site uses cookies, which are tiny files that are
+              downloaded to your computer, to improve your experience. This page
+              describes what information they gather, how we use it and why we
+              sometimes need to store these cookies. We will also share how you
+              can prevent these cookies from being stored however this may
+              downgrade or 'break' certain elements of the sites functionality.,
+              key: -3d91cdc9
+            label: Text
+            name: '-3d91cdc9'
+            widget: text
+          - hint: 'Original text: How We Use Cookies, key: 6f3c7474'
+            label: Text
+            name: 6f3c7474
+            widget: string
+          - hint: >-
+              Original text: We use cookies for a variety of reasons detailed
+              below. Unfortunately in most cases there are no industry standard
+              options for disabling cookies without completely disabling the
+              functionality and features they add to this site. It is
+              recommended that you leave on all cookies if you are not sure
+              whether you need them or not in case they are used to provide a
+              service that you use., key: 2be38d92
+            label: Text
+            name: 2be38d92
+            widget: text
+          - hint: 'Original text: Disabling Cookies, key: -4554992c'
+            label: Text
+            name: '-4554992c'
+            widget: string
+          - hint: >-
+              Original text: You can prevent the setting of cookies by adjusting
+              the settings on your browser (see your browser Help for how to do
+              this). Be aware that disabling cookies will affect the
+              functionality of this and many other websites that you visit.
+              Disabling cookies will usually result in also disabling certain
+              functionality and features of the this site. Therefore it is
+              recommended that you do not disable cookies., key: 7124f76e
+            label: Text
+            name: 7124f76e
+            widget: text
+          - hint: 'Original text: The Cookies We Set, key: 2a75aa90'
+            label: Text
+            name: 2a75aa90
+            widget: string
+          - hint: 'Original text: Forms related cookies, key: 398f7989'
+            label: Text
+            name: 398f7989
+            widget: string
+          - hint: >-
+              Original text: When you submit data to through a form such as
+              those found on contact pages or comment forms cookies may be set
+              to remember your user details for future correspondence., key:
+              -4b9f6979
+            label: Text
+            name: '-4b9f6979'
+            widget: text
+          - hint: 'Original text: Site preferences cookies, key: 7014ab2e'
+            label: Text
+            name: 7014ab2e
+            widget: string
+          - hint: >-
+              Original text: In order to provide you with a great experience on
+              this site we provide the functionality to set your preferences for
+              how this site runs when you use it. In order to remember your
+              preferences we need to set cookies so that this information can be
+              called whenever you interact with a page is affected by your
+              preferences., key: 530d2132
+            label: Text
+            name: 530d2132
+            widget: text
+          - hint: 'Original text: Third Party Cookies, key: 5413fbfc'
+            label: Text
+            name: 5413fbfc
+            widget: string
+          - hint: >-
+              Original text: In some special cases we also use cookies provided
+              by trusted third parties. The following section details which
+              third party cookies you might encounter through this site., key:
+              529e58d7
+            label: Text
+            name: 529e58d7
+            widget: text
+          - hint: >-
+              Original text: This site uses Google Analytics which is one of the
+              most widespread and trusted analytics solution on the web for
+              helping us to understand how you use the site and ways that we can
+              improve your experience. These cookies may track things such as
+              how long you spend on the site and the pages that you visit so we
+              can continue to produce engaging content., key: -2e2ea277
+            label: Text
+            name: '-2e2ea277'
+            widget: text
+          - hint: >-
+              Original text: For more information on Google Analytics cookies,
+              see the official Google Analytics page., key: 265a99fc
+            label: Text
+            name: 265a99fc
+            widget: string
+          - hint: >-
+              Original text: Third party analytics are used to track and measure
+              usage of this site so that we can continue to produce engaging
+              content. These cookies may track things such as how long you spend
+              on the site or pages you visit which helps us to understand how we
+              can improve the site for you., key: 760b54ff
+            label: Text
+            name: 760b54ff
+            widget: text
+          - hint: >-
+              Original text: The Google AdSense service we use to serve
+              advertising uses a DoubleClick cookie to serve more relevant ads
+              across the web and limit the number of times that a given ad is
+              shown to you., key: -26c952e9
+            label: Text
+            name: '-26c952e9'
+            widget: text
+          - hint: >-
+              Original text: For more information on Google AdSense see the
+              official Google AdSense privacy FAQ., key: -64b92b4a
+            label: Text
+            name: '-64b92b4a'
+            widget: string
+          - hint: >-
+              Original text: We use adverts to offset the costs of running this
+              site and provide funding for further development. The behavioural
+              advertising cookies used by this site are designed to ensure that
+              we provide you with the most relevant adverts where possible by
+              anonymously tracking your interests and presenting similar things
+              that may be of interest., key: 4d916d
+            label: Text
+            name: 4d916d
+            widget: text
+          - hint: >-
+              Original text: We also use social media buttons and/or plugins on
+              this site that allow you to connect with your social network in
+              various ways. For these to work the following social media sites
+              including; Facebook, LinkedIn and Twitter, will set cookies
+              through our site which may be used to enhance your profile on
+              their site or contribute to the data they hold for various
+              purposes outlined in their respective privacy policies., key:
+              -2375becf
+            label: Text
+            name: '-2375becf'
+            widget: text
+          - hint: 'Original text: More Information, key: 4c6cf0e1'
+            label: Text
+            name: 4c6cf0e1
+            widget: string
+          - hint: >-
+              Original text: Hopefully that has clarified things for you and as
+              was previously mentioned if there is something that you aren't
+              sure whether you need or not it's usually safer to leave cookies
+              enabled in case it does interact with one of the features you use
+              on our site., key: -37d88e42
+            label: Text
+            name: '-37d88e42'
+            widget: text
+          - hint: >-
+              Original text: However if you are still looking for more
+              information then you can contact us through one of our preferred
+              contact methods:, key: -682da734
+            label: Text
+            name: '-682da734'
+            widget: text
+          - hint: 'Original text: Email: , key: 19673a2'
+            label: Text
+            name: 19673a2
+            widget: string
+          - hint: 'Original text: info@slamdunk.com, key: -273078c8'
+            label: Text
+            name: '-273078c8'
+            widget: string
+          - hint: 'Original text: Disclaimer Policy, key: 33d14f57'
+            label: Text
+            name: 33d14f57
+            widget: string
+          - hint: 'Original text: Disclaimer for Slamdunk News, key: -5c2833c'
+            label: Text
+            name: '-5c2833c'
+            widget: string
+          - hint: >-
+              Original text: If you require any more information or have any
+              questions about our site's disclaimer, please feel free to contact
+              us., key: -669eeb0c
+            label: Text
+            name: '-669eeb0c'
+            widget: text
+          - hint: 'Original text: Disclaimers for Slamdunk News, key: 4aa193e1'
+            label: Text
+            name: 4aa193e1
+            widget: string
+          - hint: >-
+              Original text: All the information on this website -
+              www.slamdunknews.com - is published in good faith and for general
+              information purpose only. Slamdunk News does not make any
+              warranties about the completeness, reliability and accuracy of
+              this information. Any action you take upon the information you
+              find on this website (Touchdown News), is strictly at your own
+              risk. Touchdown News will not be liable for any losses and/or
+              damages in connection with the use of our website., key: 2a9bbe17
+            label: Text
+            name: 2a9bbe17
+            widget: text
+          - hint: >-
+              Original text: From our website, you can visit other websites by
+              following hyperlinks to such external sites. While we strive to
+              provide only quality links to useful and ethical websites, we have
+              no control over the content and nature of these sites. These links
+              to other websites do not imply a recommendation for all the
+              content found on these sites. Site owners and content may change
+              without notice and may occur before we have the opportunity to
+              remove a link which may have gone 'bad'., key: 53bc01b6
+            label: Text
+            name: 53bc01b6
+            widget: text
+          - hint: >-
+              Original text: Please be also aware that when you leave our
+              website, other sites may have different privacy policies and terms
+              which are beyond our control. Please be sure to check the Privacy
+              Policies of these sites as well as their "Terms of Service" before
+              engaging in any business or uploading any information., key:
+              be8c6de
+            label: Text
+            name: be8c6de
+            widget: text
+          - hint: >-
+              Original text: By using our website, you hereby consent to our
+              disclaimer and agree to its terms., key: -610396ed
+            label: Text
+            name: '-610396ed'
+            widget: string
+          - hint: 'Original text: Update, key: -689adb17'
+            label: Text
+            name: '-689adb17'
+            widget: string
+          - hint: >-
+              Original text: Should we update, amend or make any changes to this
+              document, those changes will be prominently posted here., key:
+              -71053b72
+            label: Text
+            name: '-71053b72'
+            widget: text
+          - hint: 'Original text: Welcome to Slamdunk News!, key: 62e7cc08'
+            label: Text
+            name: 62e7cc08
+            widget: string
+          - hint: >-
+              Original text: These terms and conditions outline the rules and
+              regulations for the use of Slamdunk News's Website, located at
+              www.slamdunknews.com., key: -23c31551
+            label: Text
+            name: '-23c31551'
+            widget: text
+          - hint: >-
+              Original text: By accessing this website we assume you accept
+              these terms and conditions. Do not continue to use Slamdunk News
+              if you do not agree to take all of the terms and conditions stated
+              on this page., key: -781448b7
+            label: Text
+            name: '-781448b7'
+            widget: text
+          - hint: >-
+              Original text: The following terminology applies to these Terms
+              and Conditions, Privacy Statement and Disclaimer Notice and all
+              Agreements: "Client", "You" and "Your" refers to you, the person
+              log on this website and compliant to the Company’s terms and
+              conditions. "The Company", "Ourselves", "We", "Our" and "Us",
+              refers to our Company. "Party", "Parties", or "Us", refers to both
+              the Client and ourselves. All terms refer to the offer, acceptance
+              and consideration of payment necessary to undertake the process of
+              our assistance to the Client in the most appropriate manner for
+              the express purpose of meeting the Client’s needs in respect of
+              provision of the Company’s stated services, in accordance with and
+              subject to, prevailing law of Netherlands. Any use of the above
+              terminology or other words in the singular, plural, capitalization
+              and/or he/she or they, are taken as interchangeable and therefore
+              as referring to same., key: 7d486652
+            label: Text
+            name: 7d486652
+            widget: text
+          - hint: 'Original text: Cookies, key: -64062591'
+            label: Text
+            name: '-64062591'
+            widget: string
+          - hint: >-
+              Original text: We employ the use of cookies. By accessing Slamdunk
+              News, you agreed to use cookies in agreement with the Slamdunk
+              News's Privacy Policy., key: -58d53d79
+            label: Text
+            name: '-58d53d79'
+            widget: text
+          - hint: >-
+              Original text: Most interactive websites use cookies to let us
+              retrieve the user’s details for each visit. Cookies are used by
+              our website to enable the functionality of certain areas to make
+              it easier for people visiting our website. Some of our
+              affiliate/advertising partners may also use cookies., key:
+              -6c1dab9e
+            label: Text
+            name: '-6c1dab9e'
+            widget: text
+          - hint: 'Original text: License, key: 6d291c21'
+            label: Text
+            name: 6d291c21
+            widget: string
+          - hint: >-
+              Original text: Unless otherwise stated, Slamdunk News and/or its
+              licensors own the intellectual property rights for all material on
+              Slamdunk News. All intellectual property rights are reserved. You
+              may access this from Slamdunk News for your own personal use
+              subjected to restrictions set in these terms and conditions., key:
+              65088c2a
+            label: Text
+            name: 65088c2a
+            widget: text
+          - hint: 'Original text: You must not:, key: -2560763'
+            label: Text
+            name: '-2560763'
+            widget: string
+          - hint: >-
+              Original text: Republish material from Slamdunk News, key:
+              -48fa0e21
+            label: Text
+            name: '-48fa0e21'
+            widget: string
+          - hint: >-
+              Original text: Sell, rent or sub-license material from Slamdunk
+              News, key: -654052e5
+            label: Text
+            name: '-654052e5'
+            widget: string
+          - hint: >-
+              Original text: Reproduce, duplicate or copy material from Slamdunk
+              News, key: -8633741
+            label: Text
+            name: '-8633741'
+            widget: string
+          - hint: >-
+              Original text: Redistribute content from Slamdunk News, key:
+              -6255b0c3
+            label: Text
+            name: '-6255b0c3'
+            widget: string
+          - hint: >-
+              Original text: This Agreement shall begin on the date hereof.,
+              key: 3a7d7942
+            label: Text
+            name: 3a7d7942
+            widget: string
+          - hint: >-
+              Original text: Parts of this website offer an opportunity for
+              users to post and exchange opinions and information in certain
+              areas of the website. Slamdunk News does not filter, edit, publish
+              or review Comments prior to their presence on the website.
+              Comments do not reflect the views and opinions of Slamdunk News,
+              its agents and/or affiliates. Comments reflect the views and
+              opinions of the person who post their views and opinions. To the
+              extent permitted by applicable laws, Slamdunk News shall not be
+              liable for the Comments or for any liability, damages or expenses
+              caused and/or suffered as a result of any use of and/or posting of
+              and/or appearance of the Comments on this website., key: -75009089
+            label: Text
+            name: '-75009089'
+            widget: text
+          - hint: >-
+              Original text: Slamdunk News reserves the right to monitor all
+              Comments and to remove any Comments which can be considered
+              inappropriate, offensive or causes breach of these Terms and
+              Conditions., key: -11cc6c1f
+            label: Text
+            name: '-11cc6c1f'
+            widget: text
+          - hint: 'Original text: You warrant and represent that:, key: 5f6aa20e'
+            label: Text
+            name: 5f6aa20e
+            widget: string
+          - hint: >-
+              Original text: You are entitled to post the Comments on our
+              website and have all necessary licenses and consents to do so;,
+              key: -bd5fb4a
+            label: Text
+            name: '-bd5fb4a'
+            widget: text
+          - hint: >-
+              Original text: The Comments do not invade any intellectual
+              property right, including without limitation copyright, patent or
+              trademark of any third party;, key: -563eef38
+            label: Text
+            name: '-563eef38'
+            widget: text
+          - hint: >-
+              Original text: The Comments do not contain any defamatory,
+              libelous, offensive, indecent or otherwise unlawful material which
+              is an invasion of privacy, key: -31509d7b
+            label: Text
+            name: '-31509d7b'
+            widget: text
+          - hint: >-
+              Original text: The Comments will not be used to solicit or promote
+              business or custom or present commercial activities or unlawful
+              activity., key: 2681e3f2
+            label: Text
+            name: 2681e3f2
+            widget: text
+          - hint: >-
+              Original text: You hereby grant Slamdunk News a non-exclusive
+              license to use, reproduce, edit and authorize others to use,
+              reproduce and edit any of your Comments in any and all forms,
+              formats or media., key: 78a7d171
+            label: Text
+            name: 78a7d171
+            widget: text
+          - hint: 'Original text: Hyperlinking to our Content, key: -79ffb7dc'
+            label: Text
+            name: '-79ffb7dc'
+            widget: string
+          - hint: >-
+              Original text: The following organizations may link to our Website
+              without prior written approval:, key: 4584dbcf
+            label: Text
+            name: 4584dbcf
+            widget: string
+          - hint: 'Original text: Government agencies;, key: 163ca5e9'
+            label: Text
+            name: 163ca5e9
+            widget: string
+          - hint: 'Original text: Search engines;, key: -2d4370be'
+            label: Text
+            name: '-2d4370be'
+            widget: string
+          - hint: 'Original text: News organizations;, key: f209f68'
+            label: Text
+            name: f209f68
+            widget: string
+          - hint: >-
+              Original text: Online directory distributors may link to our
+              Website in the same manner as they hyperlink to the Websites of
+              other listed businesses; and, key: -23f5eac6
+            label: Text
+            name: '-23f5eac6'
+            widget: text
+          - hint: >-
+              Original text: System wide Accredited Businesses except soliciting
+              non-profit organizations, charity shopping malls, and charity
+              fundraising groups which may not hyperlink to our Web site., key:
+              -e8cb609
+            label: Text
+            name: '-e8cb609'
+            widget: text
+          - hint: >-
+              Original text: These organizations may link to our home page, to
+              publications or to other Website information so long as the link:
+              (a) is not in any way deceptive; (b) does not falsely imply
+              sponsorship, endorsement or approval of the linking party and its
+              products and/or services; and (c) fits within the context of the
+              linking party’s site., key: -519b30c
+            label: Text
+            name: '-519b30c'
+            widget: text
+          - hint: >-
+              Original text: We may consider and approve other link requests
+              from the following types of organizations:, key: -fe5fc9c
+            label: Text
+            name: '-fe5fc9c'
+            widget: string
+          - hint: >-
+              Original text: commonly-known consumer and/or business information
+              sources;, key: -bacc4b6
+            label: Text
+            name: '-bacc4b6'
+            widget: string
+          - hint: 'Original text: dot.com community sites;, key: -593257f6'
+            label: Text
+            name: '-593257f6'
+            widget: string
+          - hint: >-
+              Original text: associations or other groups representing
+              charities;, key: 1184adbe
+            label: Text
+            name: 1184adbe
+            widget: string
+          - hint: 'Original text: online directory distributors;, key: 12c0e10f'
+            label: Text
+            name: 12c0e10f
+            widget: string
+          - hint: 'Original text: internet portals;, key: 7e73dd93'
+            label: Text
+            name: 7e73dd93
+            widget: string
+          - hint: >-
+              Original text: accounting, law and consulting firms; and, key:
+              a4448d7
+            label: Text
+            name: a4448d7
+            widget: string
+          - hint: >-
+              Original text: educational institutions and trade associations.,
+              key: 6c65d39f
+            label: Text
+            name: 6c65d39f
+            widget: string
+          - hint: >-
+              Original text: We will approve link requests from these
+              organizations if we decide that: (a) the link would not make us
+              look unfavorably to ourselves or to our accredited businesses; (b)
+              the organization does not have any negative records with us; (c)
+              the benefit to us from the visibility of the hyperlink compensates
+              the absence of Touchdown News; and (d) the link is in the context
+              of general resource information., key: 3af1c1c7
+            label: Text
+            name: 3af1c1c7
+            widget: text
+          - hint: >-
+              Original text: These organizations may link to our home page so
+              long as the link: (a) is not in any way deceptive; (b) does not
+              falsely imply sponsorship, endorsement or approval of the linking
+              party and its products or services; and (c) fits within the
+              context of the linking party’s site., key: 44b8432f
+            label: Text
+            name: 44b8432f
+            widget: text
+          - hint: >-
+              Original text: If you are one of the organizations listed in
+              paragraph 2 above and are interested in linking to our website,
+              you must inform us by sending an e-mail to Touchdown News. Please
+              include your name, your organization name, contact information as
+              well as the URL of your site, a list of any URLs from which you
+              intend to link to our Website, and a list of the URLs on our site
+              to which you would like to link. Wait 2-3 weeks for a response.,
+              key: -32e4856b
+            label: Text
+            name: '-32e4856b'
+            widget: text
+          - hint: >-
+              Original text: Approved organizations may hyperlink to our Website
+              as follows:, key: -3cb2501a
+            label: Text
+            name: '-3cb2501a'
+            widget: string
+          - hint: 'Original text: By use of our corporate name; or, key: -73b55b37'
+            label: Text
+            name: '-73b55b37'
+            widget: string
+          - hint: >-
+              Original text: By use of the uniform resource locator being linked
+              to; or, key: -37dcbfd1
+            label: Text
+            name: '-37dcbfd1'
+            widget: string
+          - hint: >-
+              Original text: By use of any other description of our Website
+              being linked to that makes sense within the context and format of
+              content on the linking party’s site., key: 3ebfda50
+            label: Text
+            name: 3ebfda50
+            widget: text
+          - hint: >-
+              Original text: No use of Touchdown News's logo or other artwork
+              will be allowed for linking absent a trademark license agreement.,
+              key: -3d344913
+            label: Text
+            name: '-3d344913'
+            widget: text
+          - hint: 'Original text: iFrames, key: 3055be6f'
+            label: Text
+            name: 3055be6f
+            widget: string
+          - hint: >-
+              Original text: Without prior approval and written permission, you
+              may not create frames around our Webpages that alter in any way
+              the visual presentation or appearance of our Website., key:
+              -18094b4d
+            label: Text
+            name: '-18094b4d'
+            widget: text
+          - hint: 'Original text: Content Liability, key: -5f90da1a'
+            label: Text
+            name: '-5f90da1a'
+            widget: string
+          - hint: >-
+              Original text: We shall not be hold responsible for any content
+              that appears on your Website. You agree to protect and defend us
+              against all claims that is rising on your Website. No link(s)
+              should appear on any Website that may be interpreted as libelous,
+              obscene or criminal, or which infringes, otherwise violates, or
+              advocates the infringement or other violation of, any third party
+              rights., key: -1d314987
+            label: Text
+            name: '-1d314987'
+            widget: text
+          - hint: 'Original text: Your Privacy, key: 3495789b'
+            label: Text
+            name: 3495789b
+            widget: string
+          - hint: 'Original text: Please read , key: -730bc24c'
+            label: Text
+            name: '-730bc24c'
+            widget: string
+          - hint: 'Original text: Reservation of Rights, key: 2fbc40ec'
+            label: Text
+            name: 2fbc40ec
+            widget: string
+          - hint: >-
+              Original text: We reserve the right to request that you remove all
+              links or any particular link to our Website. You approve to
+              immediately remove all links to our Website upon request. We also
+              reserve the right to amen these terms and conditions and it’s
+              linking policy at any time. By continuously linking to our
+              Website, you agree to be bound to and follow these linking terms
+              and conditions., key: 1e407210
+            label: Text
+            name: '1e407210'
+            widget: text
+          - hint: 'Original text: Removal of links from our website, key: -6dbc6d13'
+            label: Text
+            name: '-6dbc6d13'
+            widget: string
+          - hint: >-
+              Original text: If you find any link on our Website that is
+              offensive for any reason, you are free to contact and inform us
+              any moment. We will consider requests to remove links but we are
+              not obligated to or so or to respond to you directly., key:
+              73ecab03
+            label: Text
+            name: 73ecab03
+            widget: text
+          - hint: >-
+              Original text: We do not ensure that the information on this
+              website is correct, we do not warrant its completeness or
+              accuracy; nor do we promise to ensure that the website remains
+              available or that the material on the website is kept up to date.,
+              key: -27651a54
+            label: Text
+            name: '-27651a54'
+            widget: text
+          - hint: >-
+              Original text: To the maximum extent permitted by applicable law,
+              we exclude all representations, warranties and conditions relating
+              to our website and the use of this website. Nothing in this
+              disclaimer will:, key: -459a13c4
+            label: Text
+            name: '-459a13c4'
+            widget: text
+          - hint: >-
+              Original text: limit or exclude our or your liability for death or
+              personal injury;, key: -73305957
+            label: Text
+            name: '-73305957'
+            widget: string
+          - hint: >-
+              Original text: limit or exclude our or your liability for fraud or
+              fraudulent misrepresentation;, key: -2f54adce
+            label: Text
+            name: '-2f54adce'
+            widget: string
+          - hint: >-
+              Original text: limit any of our or your liabilities in any way
+              that is not permitted under applicable law; or, key: 137efffa
+            label: Text
+            name: 137efffa
+            widget: text
+          - hint: >-
+              Original text: exclude any of our or your liabilities that may not
+              be excluded under applicable law., key: 7e578233
+            label: Text
+            name: '7e578233'
+            widget: string
+          - hint: >-
+              Original text: The limitations and prohibitions of liability set
+              in this Section and elsewhere in this disclaimer: (a) are subject
+              to the preceding paragraph; and (b) govern all liabilities arising
+              under the disclaimer, including liabilities arising in contract,
+              in tort and for breach of statutory duty., key: -2b8fba13
+            label: Text
+            name: '-2b8fba13'
+            widget: text
+          - hint: >-
+              Original text: As long as the website and the information and
+              services on the website are provided free of charge, we will not
+              be liable for any loss or damage of any nature., key: -66fcebf
+            label: Text
+            name: '-66fcebf'
+            widget: text
+      - label: Links
+        name: links
+        file: cms/_data/links.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Links
+          - hint: 'Original link: /, key: 2f'
+            label: Link
+            name: 2f
+            widget: string
+          - hint: 'Original link: /about, key: 55b8e8be'
+            label: Link
+            name: 55b8e8be
+            widget: string
+          - hint: 'Original link: /contact, key: 4b0e6111'
+            label: Link
+            name: 4b0e6111
+            widget: string
+          - hint: 'Original link: #, key: 23'
+            label: Link
+            name: '23'
+            widget: string
+          - hint: 'Original link: /privacy-policy, key: 618fe506'
+            label: Link
+            name: 618fe506
+            widget: string
+          - hint: 'Original link: /cookie-policy, key: -6debaf14'
+            label: Link
+            name: '-6debaf14'
+            widget: string
+          - hint: 'Original link: /terms-and-conditions, key: 7277c423'
+            label: Link
+            name: 7277c423
+            widget: string
+          - hint: 'Original link: /disclaimer, key: 6fc2470a'
+            label: Link
+            name: 6fc2470a
+            widget: string
+          - hint: 'Original link: http://www.becausewecanmedia.com, key: -52cfa2ee'
+            label: Link
+            name: '-52cfa2ee'
+            widget: string
+          - hint: 'Original link: /posts, key: 56924104'
+            label: Link
+            name: '56924104'
+            widget: string
+          - hint: 'Original link: https://twitter.com/NewsSlamDunk, key: -49ac6e42'
+            label: Link
+            name: '-49ac6e42'
+            widget: string
+          - hint: >-
+              Original link: https://www.linkedin.com/company/slam-dunk-news/,
+              key: -7626585
+            label: Link
+            name: '-7626585'
+            widget: string
+          - hint: >-
+              Original link: https://www.instagram.com/slamdunk.news/, key:
+              -4cf1044f
+            label: Link
+            name: '-4cf1044f'
+            widget: string
+          - hint: 'Original link: http://touchdownnews.com, key: -63fad48b'
+            label: Link
+            name: '-63fad48b'
+            widget: string
+          - hint: 'Original link: http://7kingscasino.com/, key: -6ff269b0'
+            label: Link
+            name: '-6ff269b0'
+            widget: string
+          - hint: 'Original link: https://elasticthemes.com, key: -3588ecfd'
+            label: Link
+            name: '-3588ecfd'
+            widget: string
+          - hint: 'Original link: https://twitter.com, key: 2c7f7157'
+            label: Link
+            name: 2c7f7157
+            widget: string
+          - hint: 'Original link: https://facebook.com, key: -7c5ce158'
+            label: Link
+            name: '-7c5ce158'
+            widget: string
+          - hint: 'Original link: https://instagram.com, key: 7c9be6d6'
+            label: Link
+            name: 7c9be6d6
+            widget: string
+          - hint: 'Original link: mailto:info@slamdunknews.com, key: 58b01f03'
+            label: Link
+            name: 58b01f03
+            widget: string
+      - label: Images
+        name: images
+        file: cms/_data/images.json
+        fields:
+          - label: Title
+            name: title
+            widget: hidden
+            default: Images
+          - label: Image
+            name: 36b7796e
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 5c410bc7
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i4cf71348
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i6f313358
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i36b5b475
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 2dcab44e
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 74fee554
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: i70a7639d
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 3a2a43ac
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-723f224a'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 376e48ce
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 926fdaa
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-5d47a716'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-5e0b073a'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-154b15a8'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-1ca4d348'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 2ea12554
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 2731ab60
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 63d3600f
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-29ce8d4b'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-5d519506'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-30789fec'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-4508a282'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-3cb501e9'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 18dedcf9
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 7a43c8d1
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-71f29c2d'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-590f97f9'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 36c5e456
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-1c7f6dae'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 4ee13d23
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 46f29b23
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 320fd29c
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 6bafcd72
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 1b21fc02
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 4c5d37a5
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 4e2cb9bf
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-72638802'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: '-74edc15f'
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+          - label: Image
+            name: 333c5bf2
+            widget: object
+            fields:
+              - name: url
+                label: Image Url
+                widget: image
+                allow_multiple: false
+                required: false
+              - name: alt
+                label: Image Alt
+                widget: string
+                required: false
+publish_mode: editorial_workflow

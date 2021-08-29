@@ -1,0 +1,27 @@
+<div class="section wf-section">
+    <div class="wrapper w-container">
+      <div class="header-block side-margins">
+        <div class="header">
+          <h3 class="header-text">{{ texts.410cb745 }}</h3>
+        </div>
+        <a href="{{ links.23 }}" target="_blank" class="more-link w-inline-block">
+          <div>{{ texts.4130d72e }}</div>
+          <div class="more-link-icon">{%- image images.-1ca4d348.url, images.-1ca4d348.alt, '[{"max":991,"size":"14px"},{"max":10000,"size":"1vw"}]', 'class="more-link-arrow"' -%}{%- image images.2ea12554.url, images.2ea12554.alt, '[]', 'class="more-link-arrow-hover"' -%}</div>
+        </a>
+        <div class="header-line"></div>
+      </div>
+      {%- assign collection = collections.posts | limit: 7 -%}<div class="w-dyn-list">
+        {%- unless collection.length == 0 -%}<div role="list" class="instagram-grid w-dyn-items">
+          {%- for item in collection -%}<div id="w-node-_2921ddb8-55c3-c98d-f859-3962ef6d779e-6a226326" role="listitem" class="w-dyn-item">
+            <a href="{{ links.23 }}" class="instagram-photo-link w-inline-block w-lightbox">{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"40vw"},{"max":991,"size":"20vw"},{"max":10000,"size":"10vw"}]', 'loading="lazy" class="full-width"' -%}
+              <div class="instagram-hover"></div>
+              <script type="application/json" class="w-json">{"items":[{"type":"image","url":"{{ item.data.f_thumbnail-image.url }}","caption":""}],"group":"Instagram"}</script>
+            </a>
+          </div>{%- endfor -%}
+        </div>{%- endunless -%}
+        {%- if collection.length == 0 -%}<div class="empty-state w-dyn-empty">
+          <div>{{ texts.3d503d2b }}</div>
+        </div>{%- endif -%}
+      </div>
+    </div>
+  </div>

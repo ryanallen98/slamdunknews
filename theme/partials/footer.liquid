@@ -1,0 +1,84 @@
+<div class="section footer-v1-section wf-section">
+    <div class="wrapper">
+      <div class="footer-v1">
+        <div class="footer-v1-column about">
+          <a href="{{ links.2f }}" aria-current="page" class="footer-v1-brand w-inline-block w--current">{%- image images.-723f224a.url, images.-723f224a.alt, '[]', 'loading="lazy" class="image-5 foot"' -%}</a>
+          <div class="footer-v1-info">{{ texts.639e9648 }}</div>
+        </div>
+        <div class="footer-v1-column">
+          <h4 class="footer-v1-heading">{{ texts.-1a2819cc }}</h4>
+          <a href="{{ links.2f }}" aria-current="page" class="footer-v1-nav-link w-inline-block w--current">
+            <div>{{ texts.2268ff }}</div>{%- image images.-1ca4d348.url, images.-1ca4d348.alt, '[{"max":479,"size":"100vw"},{"max":767,"size":"16px"},{"max":991,"size":"2vw"},{"max":10000,"size":"16px"}]', 'class="nav-arrow"' -%}
+          </a>
+          {%- assign collection = collections.categories | sort: "title" -%}<div class="w-dyn-list">
+            {%- unless collection.length == 0 -%}<div role="list" class="w-dyn-items">
+              {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
+                <a href="{{ item.url }}" class="footer-v1-nav-link w-inline-block">{%- image images.-1ca4d348.url, images.-1ca4d348.alt, '[{"max":479,"size":"100vw"},{"max":767,"size":"16px"},{"max":991,"size":"2vw"},{"max":10000,"size":"16px"}]', 'class="nav-arrow"' -%}
+                  <div>{{ item.data.title }}</div>
+                </a>
+              </div>{%- endfor -%}
+            </div>{%- endunless -%}
+            {%- if collection.length == 0 -%}<div class="w-dyn-empty">
+              <div>{{ texts.3d503d2b }}</div>
+            </div>{%- endif -%}
+          </div>
+        </div>
+        <div class="footer-v1-column">
+          <h4 class="footer-v1-heading">{{ texts.-34b20a9f }}</h4>
+          {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 3 -%}<div class="footer-v1-posts w-dyn-list">
+            {%- unless collection.length == 0 -%}<div role="list" class="grid-mini-list footer-posts w-dyn-items">
+              {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
+                <div class="post-mini">
+                  <a href="{{ item.url }}" class="post-mini-thumbnail w-inline-block">{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":10000,"size":"80px"}]', 'loading="lazy" class="image-11"' -%}</a>
+                  <div class="post-mini-content">
+                    <a href="{{ item.url }}" class="post-heading-link w-inline-block">
+                      <h6 class="post-mini-heading">{{ item.data.title }}</h6>
+                    </a>
+                    <div class="post-info">{%- image images.926fdaa.url, images.926fdaa.alt, '[{"max":991,"size":"14px"},{"max":10000,"size":"1vw"}]', 'class="mini-icon-grey"' -%}
+                      <div>{{ item.data.f_time-to-read }}</div>
+                      <div>{{ texts.55c12744 }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>{%- endfor -%}
+            </div>{%- endunless -%}
+            {%- if collection.length == 0 -%}<div class="empty-state w-dyn-empty">
+              <div>{{ texts.3d503d2b }}</div>
+            </div>{%- endif -%}
+          </div>
+        </div>
+        <div class="footer-v1-column hide">
+          <h4 class="footer-v1-heading">{{ texts.-47761f27 }}</h4>
+          <div class="w-form">
+            <form id="email-form" name="email-form" data-name="email" class="subscribe-v3-form" data-netlify="true" data-ajax="true" data-content-type="application/x-www-form-urlencoded">
+              <div class="subscribe-v3-text">{{ texts.-6f354dfb }}</div>
+              <div class="w-layout-grid subscribe-v3-grid"><input type="email" class="input w-input" maxlength="256" name="email-2" data-name="Email 2" placeholder="Email address" id="email-2" required=""><input type="submit" value="Subscribe" data-wait="Please wait..." class="button w-button"></div>
+              <div class="form-info">{{ texts.22c51f36 }}<a href="{{ links.618fe506 }}" class="text-link">{{ texts.-3fbde6f6 }}</a>
+              </div>
+            </form>
+            <div class="form-success w-form-done">
+              <div>{{ texts.5a0ea5a1 }}</div>
+            </div>
+            <div class="form-error w-form-fail">
+              <div>{{ texts.-7c112e99 }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <div class="footer-v1-info">{{ texts.22041599 }}</div>
+          <a href="{{ links.-63fad48b }}" target="_blank" class="footer-v1-brand travel w-inline-block">{%- image images.-5d519506.url, images.-5d519506.alt, '[]', 'loading="lazy" class="image-12"' -%}</a>
+        </div>
+        <div class="footer-bottom-right">
+          <a href="{{ links.7277c423 }}" class="link-white">{{ texts.-7ac7b766 }}</a>
+          <div class="divider-small"></div>
+          <a href="{{ links.-6debaf14 }}" class="link-white">{{ texts.-5fa6abdd }}</a>
+          <div class="divider-small"></div>
+          <a href="{{ links.618fe506 }}" class="link-white">{{ texts.-3fbde6f6 }}</a>
+          <div class="divider-small"></div>
+          <a href="{{ links.6fc2470a }}" class="link-white">{{ texts.-6f68ae45 }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
