@@ -1,4 +1,4 @@
-<div data-collapse="medium" data-animation="default" data-duration="400" id="Navigation" data-w-id="5369fe3a-abd1-d8c0-b17e-1fbba3bc9790" role="banner" class="nav-bar-v2 w-nav">
+<div data-animation="default" class="nav-bar-v2 w-nav" data-easing2="ease" data-easing="ease" data-collapse="medium" data-w-id="5369fe3a-abd1-d8c0-b17e-1fbba3bc9790" role="banner" data-duration="400" id="Navigation">
     <a href="{{ links.2f }}" aria-current="page" class="nav-brand-v2 w-nav-brand w--current">{%- image images.-723f224a.url, images.-723f224a.alt, '[]', 'loading="lazy" class="image-5"' -%}</a>
     <div class="nav-space"></div>
     <nav role="navigation" class="nav-menu-v2 w-nav-menu">
@@ -14,7 +14,7 @@
           <div>{{ texts.3d503d2b }}</div>
         </div>{%- endif -%}
       </div>
-      <div data-hover="1" data-delay="400" class="dropdown dropdown-big w-dropdown">
+      <div data-hover="true" data-delay="400" class="dropdown dropdown-big w-dropdown">
         <div class="nav-link w-dropdown-toggle">
           <div>{{ texts.-3be6ddc4 }}</div>
         </div>
@@ -32,9 +32,9 @@
                   <div>{{ texts.3d503d2b }}</div>
                 </div>{%- endif -%}
               </div>
-              {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 4 -%}{%- assign pagination = collection | paginate: 6 -%}<div class="dropdown-posts w-dyn-list">
-                {%- unless pagination.length == 0 -%}<div role="list" class="dropdown-post-grid w-dyn-items">
-                  {%- for item in pagination[0] -%}<div role="listitem" class="w-dyn-item">
+              {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 4 -%}<div class="dropdown-posts w-dyn-list">
+                {%- unless collection.length == 0 -%}<div role="list" class="dropdown-post-grid w-dyn-items">
+                  {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
                     <div class="post-card">
                       <a href="{{ item.url }}" class="thumbnail-small w-inline-block">
                         {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge">{{ categoriesOfPosts.data.title }}</div>
@@ -56,7 +56,7 @@
                     </div>
                   </div>{%- endfor -%}
                 </div>{%- endunless -%}
-                {%- if pagination.length == 0 -%}<div class="w-dyn-empty">
+                {%- if collection.length == 0 -%}<div class="w-dyn-empty">
                   <div>{{ texts.3d503d2b }}</div>
                 </div>{%- endif -%}
               </div>
@@ -126,9 +126,9 @@
           <h4 class="header">{{ texts.-d78b7b2 }}</h4>
           <div class="header-line"></div>
         </div>
-        {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 8 -%}{%- assign pagination = collection | paginate: 5 -%}<div class="w-dyn-list">
-          {%- unless pagination.length == 0 -%}<div role="list" class="grid-mini-list w-dyn-items">
-            {%- for item in pagination[0] -%}<div role="listitem" class="w-dyn-item">
+        {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 8 -%}<div class="w-dyn-list">
+          {%- unless collection.length == 0 -%}<div role="list" class="grid-mini-list w-dyn-items">
+            {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
               <div class="post-mini">
                 <a href="{{ links.23 }}" class="post-mini-thumbnail w-inline-block">
                   <div class="thumbnail" style="background-image: url('{{item.data.f_thumbnail-image.url}}')"></div>
@@ -145,7 +145,7 @@
               </div>
             </div>{%- endfor -%}
           </div>{%- endunless -%}
-          {%- if pagination.length == 0 -%}<div class="w-dyn-empty">
+          {%- if collection.length == 0 -%}<div class="w-dyn-empty">
             <div>{{ texts.3d503d2b }}</div>
           </div>{%- endif -%}
         </div>

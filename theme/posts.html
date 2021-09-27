@@ -61,7 +61,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               {%- for item in pagination[0] -%}<div role="listitem" class="w-dyn-item">
                 <div class="post-v3-card">
                   <a href="{{ item.url }}" class="post-v3-thumbnail w-inline-block">
-                    {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"93vw"},{"max":991,"size":"34vw"},{"max":10000,"size":"18vw"}]', 'loading="lazy" class="image-11"' -%}{%- image categoriesOfPosts.data.f_logo.url, categoriesOfPosts.data.f_logo.alt, '[{"max":479,"size":"70px"},{"max":767,"size":"50px"},{"max":10000,"size":"70px"}]', 'loading="lazy" class="badge logo small bottom"' -%}
+                    {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"93vw"},{"max":991,"size":"34vw"},{"max":10000,"size":"18vw"}]', 'loading="lazy" class="image-11"' -%}
                   </a>
                   <div class="post-v3-content">
                     <a href="{{ item.url }}" class="post-heading-link w-inline-block">
@@ -84,7 +84,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {%- for paginationPage in pagination -%}{%- if forloop.index > 1 -%}{%- assign paginationFilePath = "/public/_data/paginations" | appendMultiple: page.filePathStem, "/page--3b4ffcf2-", forloop.index, ".html" -%}<template data-pagination-index="{{ forloop.index }}" data-pagination-url="{{ paginationFilePath | replace: "/public", "" }}">{% capture currentPageHTML %}{%- for item in paginationPage -%}<div role="listitem" class="w-dyn-item">
                 <div class="post-v3-card">
                   <a href="{{ item.url }}" class="post-v3-thumbnail w-inline-block">
-                    {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"93vw"},{"max":991,"size":"34vw"},{"max":10000,"size":"18vw"}]', 'loading="lazy" class="image-11"' -%}{%- image categoriesOfPosts.data.f_logo.url, categoriesOfPosts.data.f_logo.alt, '[{"max":479,"size":"70px"},{"max":767,"size":"50px"},{"max":10000,"size":"70px"}]', 'loading="lazy" class="badge logo small bottom"' -%}
+                    {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"93vw"},{"max":991,"size":"34vw"},{"max":10000,"size":"18vw"}]', 'loading="lazy" class="image-11"' -%}
                   </a>
                   <div class="post-v3-content">
                     <a href="{{ item.url }}" class="post-heading-link w-inline-block">
@@ -132,7 +132,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                   {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
                     <a href="{{ item.url }}" class="sidebar-category w-inline-block">
                       <div class="category-color-line" style="background-color: {{item.data.f_color}}"></div>
-                      <div class="sidebar-category-name">{{ item.data.title }}</div>{%- image item.data.f_logo.url, item.data.f_logo.alt, '[{"max":767,"size":"16px"},{"max":991,"size":"2vw"},{"max":10000,"size":"16px"}]', 'class="category-arrow"' -%}
+                      <div class="sidebar-category-name">{{ item.data.title }}</div>
                     </a>
                   </div>{%- endfor -%}
                 </div>{%- endunless -%}
@@ -146,9 +146,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <h4 class="header">{{ texts.-d78b7b2 }}</h4>
                 <div class="header-line"></div>
               </div>
-              {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 3 -%}{%- assign pagination = collection | paginate: 5 -%}<div class="w-dyn-list">
-                {%- unless pagination.length == 0 -%}<div role="list" class="grid-mini-list w-dyn-items">
-                  {%- for item in pagination[0] -%}<div role="listitem" class="w-dyn-item">
+              {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 3 -%}<div class="w-dyn-list">
+                {%- unless collection.length == 0 -%}<div role="list" class="grid-mini-list w-dyn-items">
+                  {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
                     <div class="post-mini">
                       <a href="{{ links.23 }}" class="post-mini-thumbnail w-inline-block">{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":10000,"size":"80px"}]', 'loading="lazy" class="image-11"' -%}</a>
                       <div class="post-mini-content">
@@ -162,21 +162,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                       </div>
                     </div>
                   </div>{%- endfor -%}
-                {%- for paginationPage in pagination -%}{%- if forloop.index > 1 -%}{%- assign paginationFilePath = "/public/_data/paginations" | appendMultiple: page.filePathStem, "/page--595f449b-", forloop.index, ".html" -%}<template data-pagination-index="{{ forloop.index }}" data-pagination-url="{{ paginationFilePath | replace: "/public", "" }}">{% capture currentPageHTML %}{%- for item in paginationPage -%}<div role="listitem" class="w-dyn-item">
-                    <div class="post-mini">
-                      <a href="{{ links.23 }}" class="post-mini-thumbnail w-inline-block">{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":10000,"size":"80px"}]', 'loading="lazy" class="image-11"' -%}</a>
-                      <div class="post-mini-content">
-                        <a href="{{ links.23 }}" class="post-heading-link w-inline-block">
-                          <h6 class="post-mini-heading">{{ item.data.title }}</h6>
-                        </a>
-                        <div class="post-info">{%- image images.926fdaa.url, images.926fdaa.alt, '[{"max":991,"size":"14px"},{"max":10000,"size":"1vw"}]', 'class="mini-icon-grey"' -%}
-                          <div>{{ item.data.f_time-to-read }}</div>
-                          <div>{{ texts.55c12744 }}</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>{%- endfor -%}{% endcapture %}{{ currentPageHTML | writeToFile: paginationFilePath }}</template>{%- endif -%}{%- endfor -%}</div>{%- endunless -%}
-                {%- if pagination.length == 0 -%}<div class="empty-state w-dyn-empty">
+                </div>{%- endunless -%}
+                {%- if collection.length == 0 -%}<div class="empty-state w-dyn-empty">
                   <div>{{ texts.3d503d2b }}</div>
                 </div>{%- endif -%}
               </div>
