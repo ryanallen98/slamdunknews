@@ -21,6 +21,7 @@ seo:
   twitter:title: summary
   twitter:card: summary
   title: NBA
+  description: Brooklyn Nets, Kyrie Irving is opting out of coronavirus vaccine
 ---
 Brooklyn Nets, Kyrie Irving is opting out of coronavirus vaccine
 
