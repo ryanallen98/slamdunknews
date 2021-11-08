@@ -32,13 +32,13 @@
                   <div>{{ texts.3d503d2b }}</div>
                 </div>{%- endif -%}
               </div>
-              {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 4 -%}<div class="dropdown-posts w-dyn-list">
+              {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "f_custom-date" | limit: 4 -%}<div class="dropdown-posts w-dyn-list">
                 {%- unless collection.length == 0 -%}<div role="list" class="dropdown-post-grid w-dyn-items">
                   {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
                     <div class="post-card">
                       <a href="{{ item.url }}" class="thumbnail-small w-inline-block">
                         {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge">{{ categoriesOfPosts.data.title }}</div>
-                        <div class="thumbnail" style="background-image: url('{{item.data.f_thumbnail-image.url}}')"></div>
+                        <div class="thumbnail" style="background-image: url('{{item.data.f_thumbnail-image.url}}');"></div>
                       </a>
                       <a href="{{ item.url }}" class="post-heading-link w-inline-block">
                         <h6 class="post-heading-small">{{ item.data.title }}</h6>
@@ -126,12 +126,12 @@
           <h4 class="header">{{ texts.-d78b7b2 }}</h4>
           <div class="header-line"></div>
         </div>
-        {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 8 -%}<div class="w-dyn-list">
+        {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "f_custom-date" | limit: 8 -%}<div class="w-dyn-list">
           {%- unless collection.length == 0 -%}<div role="list" class="grid-mini-list w-dyn-items">
             {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
               <div class="post-mini">
                 <a href="{{ links.23 }}" class="post-mini-thumbnail w-inline-block">
-                  <div class="thumbnail" style="background-image: url('{{item.data.f_thumbnail-image.url}}')"></div>
+                  <div class="thumbnail" style="background-image: url('{{item.data.f_thumbnail-image.url}}');"></div>
                 </a>
                 <div class="post-mini-content">
                   <a href="{{ item.url }}" class="post-heading-link w-inline-block">

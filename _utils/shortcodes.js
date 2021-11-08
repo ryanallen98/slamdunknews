@@ -28,6 +28,9 @@ function escape(s) {
         ;
 }
 
+function htmlEntities(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
 module.exports = function (eleventyConfig) {
 
@@ -102,18 +105,18 @@ module.exports = function (eleventyConfig) {
                     }
                     break;
                 case 'title':
-                    seoString += `<title>${escape(seo.title)}</title><meta property="og:title" content="${escape(seo.title)}" />`;
+                    seoString += `<title>${htmlEntities(seo.title)}</title><meta property="og:title" content="${htmlEntities(seo.title)}" />`;
                     break;
                 case 'description':
-                    seoString += `<meta name="description" content="${escape(seo.description)}">`;
+                    seoString += `<meta name="description" content="${htmlEntities(seo.description)}">`;
                     break;
                 default: {
                     if (key == 'additional_tags') {
                         seoString += seo.additional_tags;
                     } else if (key.startsWith('og:')) {
-                        seoString += `<meta property="${escape(key)}" content="${escape(seo[key])}">`;
+                        seoString += `<meta property="${escape(key)}" content="${htmlEntities(seo[key])}">`;
                     } else {
-                        seoString += `<meta name="${escape(key)}" content="${escape(seo[key])}">`;
+                        seoString += `<meta name="${escape(key)}" content="${htmlEntities(seo[key])}">`;
                     }
                     break;
                 }

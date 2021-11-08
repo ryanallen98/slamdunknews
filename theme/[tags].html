@@ -71,12 +71,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="section top-section wf-section">
       <div class="wrapper w-container">
         <div class="content-with-sidebar">
-          {%- assign collection = collections.posts | filter: "f_tags,idin,DYN_CONTEXT", "ALL", page.inputPath | sort: "-f_custom-date" -%}{%- assign pagination = collection | paginate: 8 -%}<div class="side-posts w-dyn-list">
+          {%- assign collection = collections.posts | filter: "f_tags,idin,DYN_CONTEXT", "ALL", page.inputPath | sort: "f_custom-date" -%}{%- assign pagination = collection | paginate: 8 -%}<div class="side-posts w-dyn-list">
             {%- unless pagination.length == 0 -%}<div role="list" class="grid-list w-dyn-items">
               {%- for item in pagination[0] -%}<div role="listitem" class="w-dyn-item">
                 <div class="post-v3-card">
                   <a href="{{ item.url }}" class="post-v3-thumbnail w-inline-block">
-                    {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"93vw"},{"max":991,"size":"34vw"},{"max":10000,"size":"18vw"}]', 'loading="lazy" class="image-11"' -%}
+                    {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}};">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"93vw"},{"max":991,"size":"34vw"},{"max":10000,"size":"18vw"}]', 'loading="lazy" class="image-11"' -%}
                   </a>
                   <div class="post-v3-content">
                     <a href="{{ item.url }}" class="post-heading-link w-inline-block">
@@ -99,7 +99,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {%- for paginationPage in pagination -%}{%- if forloop.index > 1 -%}{%- assign paginationFilePath = "/public/_data/paginations" | appendMultiple: page.filePathStem, "/page-6b9719f6-", forloop.index, ".html" -%}<template data-pagination-index="{{ forloop.index }}" data-pagination-url="{{ paginationFilePath | replace: "/public", "" }}">{% capture currentPageHTML %}{%- for item in paginationPage -%}<div role="listitem" class="w-dyn-item">
                 <div class="post-v3-card">
                   <a href="{{ item.url }}" class="post-v3-thumbnail w-inline-block">
-                    {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"93vw"},{"max":991,"size":"34vw"},{"max":10000,"size":"18vw"}]', 'loading="lazy" class="image-11"' -%}
+                    {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}};">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"93vw"},{"max":991,"size":"34vw"},{"max":10000,"size":"18vw"}]', 'loading="lazy" class="image-11"' -%}
                   </a>
                   <div class="post-v3-content">
                     <a href="{{ item.url }}" class="post-heading-link w-inline-block">
@@ -146,7 +146,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 {%- unless collection.length == 0 -%}<div role="list" class="sidebar-categories w-dyn-items">
                   {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
                     <a href="{{ item.url }}" class="sidebar-category w-inline-block">
-                      <div class="category-color-line" style="background-color: {{item.data.f_color}}"></div>
+                      <div class="category-color-line" style="background-color: {{item.data.f_color}};"></div>
                       <div class="sidebar-category-name">{{ item.data.title }}</div>
                     </a>
                   </div>{%- endfor -%}

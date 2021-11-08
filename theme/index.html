@@ -44,11 +44,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   {%- include "partials/message-popup" -%}
   <div class="carousel-section wf-section">
     <div data-w-id="28f6bd6d-f688-39d1-1928-a7e293c557d8" class="div-block-6">
-      {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 4 -%}<div class="collection-list-wrapper-3 w-dyn-list">
+      {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "f_custom-date" | limit: 4 -%}<div class="collection-list-wrapper-3 w-dyn-list">
         {%- unless collection.length == 0 -%}<div role="list" class="grid-full-medium w-dyn-items">
           {%- for item in collection -%}<div role="listitem" class="full-height w-dyn-item">
             <a href="{{ item.url }}" class="post-card-v3-medium w-inline-block">
-              {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge title" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>
+              {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge title" style="background-color: {{categoriesOfPosts.data.f_color}};">{{ categoriesOfPosts.data.title }}</div>
               <div class="post-card-content">
                 <h3 class="post-v2-heading">{{ item.data.title }}</h3>
                 <div class="post-info text-white">
@@ -70,12 +70,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <div>{{ texts.3d503d2b }}</div>
         </div>{%- endif -%}
       </div>
-      {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | offset: 4 | limit: 4 -%}<div class="collection-list-wrapper-3 w-dyn-list">
+      {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "f_custom-date" | offset: 4 | limit: 4 -%}<div class="collection-list-wrapper-3 w-dyn-list">
         {%- unless collection.length == 0 -%}<div role="list" class="grid-full-medium w-dyn-items">
           {%- for item in collection -%}<div role="listitem" class="full-height w-dyn-item">
             <a href="{{ item.url }}" class="post-card-v3-medium w-inline-block">{%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}{%- image categoriesOfPosts.data.f_logo.url, categoriesOfPosts.data.f_logo.alt, '[{"max":991,"size":"100vw"},{"max":10000,"size":"100px"}]', 'loading="lazy" class="badge logo"' -%}
               <div class="post-card-content">
-                {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge title" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>
+                {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge title" style="background-color: {{categoriesOfPosts.data.f_color}};">{{ categoriesOfPosts.data.title }}</div>
                 <h3 class="post-v2-heading">{{ item.data.title }}</h3>
                 <div class="post-info text-white">
                   {%- if item.data.f_custom-date -%}<div class="post-info-block">{%- image images.-5d47a716.url, images.-5d47a716.alt, '[]', 'class="mini-icon"' -%}
@@ -96,12 +96,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <div>{{ texts.3d503d2b }}</div>
         </div>{%- endif -%}
       </div>
-      {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 4 -%}<div class="collection-list-wrapper-3 w-dyn-list">
+      {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "f_custom-date" | limit: 4 -%}<div class="collection-list-wrapper-3 w-dyn-list">
         {%- unless collection.length == 0 -%}<div role="list" class="grid-full-medium w-dyn-items">
           {%- for item in collection -%}<div role="listitem" class="full-height w-dyn-item">
             <a href="{{ item.url }}" class="post-card-v3-medium w-inline-block">{%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}{%- image categoriesOfPosts.data.f_logo.url, categoriesOfPosts.data.f_logo.alt, '[{"max":991,"size":"100vw"},{"max":10000,"size":"100px"}]', 'loading="lazy" class="badge logo"' -%}
               <div class="post-card-content">
-                {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge title" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>
+                {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge title" style="background-color: {{categoriesOfPosts.data.f_color}};">{{ categoriesOfPosts.data.title }}</div>
                 <h3 class="post-v2-heading">{{ item.data.title }}</h3>
                 <div class="post-info text-white">
                   {%- if item.data.f_custom-date -%}<div class="post-info-block">{%- image images.-5d47a716.url, images.-5d47a716.alt, '[]', 'class="mini-icon"' -%}
@@ -125,12 +125,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </div>
   </div>
   <div class="section no-padding tablet wf-section">
-    {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 4 -%}<div class="w-dyn-list">
+    {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "f_custom-date" | limit: 4 -%}<div class="w-dyn-list">
       {%- unless collection.length == 0 -%}<div role="list" class="grid-full-medium w-dyn-items">
         {%- for item in collection -%}<div role="listitem" class="full-height w-dyn-item">
           <a href="{{ item.url }}" class="post-card-v3-medium w-inline-block">{%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}{%- image categoriesOfPosts.data.f_logo.url, categoriesOfPosts.data.f_logo.alt, '[{"max":991,"size":"100px"},{"max":10000,"size":"100vw"}]', 'loading="lazy" class="badge logo"' -%}
             <div class="post-card-content">
-              {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>
+              {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}};">{{ categoriesOfPosts.data.title }}</div>
               <h3 class="post-v2-heading">{{ item.data.title }}</h3>
               <div class="post-info text-white">
                 {%- if item.data.f_custom-date -%}<div class="post-info-block">{%- image images.-5d47a716.url, images.-5d47a716.alt, '[]', 'class="mini-icon"' -%}
@@ -163,12 +163,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </a>
         <div class="header-line"></div>
       </div>
-      {%- assign collection = collections.posts | sort: "-f_custom-date" | limit: 6 -%}<div class="w-dyn-list">
+      {%- assign collection = collections.posts | sort: "f_custom-date" | limit: 6 -%}<div class="w-dyn-list">
         {%- unless collection.length == 0 -%}<div role="list" class="grid-medium w-dyn-items">
           {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
             <div class="post-card">
               <a href="{{ item.url }}" class="thumbnail-medium w-inline-block">
-                {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"93vw"},{"max":767,"size":"47vw"},{"max":991,"size":"48vw"},{"max":10000,"size":"44vw"}]', 'loading="lazy" class="image-11"' -%}
+                {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}};">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"93vw"},{"max":767,"size":"47vw"},{"max":991,"size":"48vw"},{"max":10000,"size":"44vw"}]', 'loading="lazy" class="image-11"' -%}
               </a>
               <a href="{{ item.url }}" class="post-heading-link w-inline-block">
                 <h4 class="post-heading-medium">{{ item.data.title }}</h4>
@@ -206,7 +206,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 {%- unless collection.length == 0 -%}<div role="list" class="sidebar-categories w-dyn-items">
                   {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
                     <a href="{{ item.url }}" class="sidebar-category w-inline-block">
-                      <div class="category-color-line" style="background-color: {{item.data.f_color}}"></div>
+                      <div class="category-color-line" style="background-color: {{item.data.f_color}};"></div>
                       <div class="sidebar-category-name">{{ item.data.title }}</div>
                     </a>
                   </div>{%- endfor -%}
@@ -269,12 +269,12 @@ if (typeof bannerid !== "undefined")
             </div>
           </div>
         </div>
-        {%- assign collection = collections.posts | sort: "-f_custom-date" | offset: 6 | limit: 7 -%}<div class="side-posts w-dyn-list">
+        {%- assign collection = collections.posts | sort: "f_custom-date" | offset: 6 | limit: 7 -%}<div class="side-posts w-dyn-list">
           {%- unless collection.length == 0 -%}<div role="list" class="grid-list w-dyn-items">
             {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
               <div class="post-v3-card">
                 <a href="{{ item.url }}" class="post-v3-thumbnail w-inline-block">
-                  {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}}">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"97vw"},{"max":991,"size":"34vw"},{"max":10000,"size":"20vw"}]', 'loading="lazy" class="image-11"' -%}
+                  {%- assign categoriesOfPosts = item.data.f_category | resolveReference -%}<div class="badge" style="background-color: {{categoriesOfPosts.data.f_color}};">{{ categoriesOfPosts.data.title }}</div>{%- image item.data.f_thumbnail-image.url, item.data.f_thumbnail-image.alt, '[{"max":479,"size":"97vw"},{"max":991,"size":"34vw"},{"max":10000,"size":"20vw"}]', 'loading="lazy" class="image-11"' -%}
                 </a>
                 <div class="post-v3-content">
                   <a href="{{ item.url }}" class="post-heading-link w-inline-block">
@@ -309,12 +309,12 @@ if (typeof bannerid !== "undefined")
         <h3 class="header">{{ texts.-22209951 }}</h3>
         <div class="header-line"></div>
       </div>
-      {%- assign collection = collections.posts | sort: "-f_custom-date" | offset: 13 | limit: 6 -%}<div class="w-dyn-list">
+      {%- assign collection = collections.posts | sort: "f_custom-date" | offset: 13 | limit: 6 -%}<div class="w-dyn-list">
         {%- unless collection.length == 0 -%}<div role="list" class="grid-mini w-dyn-items">
           {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
             <div class="post-mini">
               <a href="{{ item.url }}" class="post-mini-thumbnail w-inline-block">
-                <div class="thumbnail" style="background-image: url('{{item.data.f_thumbnail-image.url}}')"></div>
+                <div class="thumbnail" style="background-image: url('{{item.data.f_thumbnail-image.url}}');"></div>
               </a>
               <div class="post-mini-content">
                 <a href="{{ item.url }}" class="post-heading-link w-inline-block">

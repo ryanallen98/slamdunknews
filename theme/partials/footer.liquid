@@ -25,7 +25,7 @@
         </div>
         <div class="footer-v1-column">
           <h4 class="footer-v1-heading">{{ texts.-3ea37e06 }}</h4>
-          {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "-f_custom-date" | limit: 3 -%}<div class="footer-v1-posts w-dyn-list">
+          {%- assign collection = collections.posts | filter: "f_featured,eq,true", "ALL", page.inputPath | sort: "f_custom-date" | limit: 3 -%}<div class="footer-v1-posts w-dyn-list">
             {%- unless collection.length == 0 -%}<div role="list" class="grid-mini-list footer-posts w-dyn-items">
               {%- for item in collection -%}<div role="listitem" class="w-dyn-item">
                 <div class="post-mini">
